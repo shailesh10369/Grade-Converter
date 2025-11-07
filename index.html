@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Academic Grade Converter</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="container">
+
+<body class="dark-mode">
+  <div class="main-container" id="mainContainer">
     <header>
-      <div class="logo">
-        <i class="fas fa-graduation-cap"></i>
-        <h1>Grade Converter</h1>
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <h1>Grade Converter</h1>
+        </div>
+        <p class="tagline">Convert between different grading systems</p>
       </div>
-      <p class="tagline">Convert between different grading systems</p>
+
+      <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-sun"></i>
+      </button>
     </header>
 
-    <button class="theme-toggle" id="themeToggle">
-      <i class="fas fa-moon"></i>
-    </button>
-
-    <div class="converter-card">
+    <div class="content-area">
       <div class="top-options">
         <div class="option-btn active" data-from="sgpa" data-to="percentage">SGPA to %</div>
         <div class="option-btn" data-from="sgpa" data-to="cgpa">SGPA to CGPA</div>
@@ -118,7 +122,7 @@
 
       <div class="result" id="result"></div>
       <div class="formula-info" id="formulaInfo">
-        Using formula: SGPA × 10 = Percentage
+        Using formula: SGPA × 10 - 7.5 = Percentage
       </div>
     </div>
 
@@ -129,4 +133,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>

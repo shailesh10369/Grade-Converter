@@ -1,4 +1,5 @@
 // DOM Elements
+const body = document.body;
 const themeToggle = document.getElementById("themeToggle");
 const swapBtn = document.getElementById("swapBtn");
 const convertBtn = document.getElementById("convertBtn");
@@ -24,14 +25,14 @@ let fromType = "sgpa";
 let toType = "percentage";
 let currentMethod = "individual";
 
-// 🌙 Theme Toggle
+// 🌙 Theme Toggle (changes only main container theme, not body background)
 themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
+  body.classList.toggle("light-mode");
   const icon = themeToggle.querySelector("i");
-  if (document.body.classList.contains("dark-mode")) {
-    icon.classList.replace("fa-moon", "fa-sun");
-  } else {
+  if (body.classList.contains("light-mode")) {
     icon.classList.replace("fa-sun", "fa-moon");
+  } else {
+    icon.classList.replace("fa-moon", "fa-sun");
   }
 });
 
@@ -93,14 +94,14 @@ addSemesterBtn.addEventListener("click", () => {
   const semesterItem = document.createElement("div");
   semesterItem.className = "semester-item";
   semesterItem.innerHTML = `
-    <div class="semester-input-container">
-      <i class="fas fa-hashtag"></i>
-      <input type="number" class="semester-input" min="0" max="10" step="0.01" placeholder="Semester ${semesterCount}">
-    </div>
-    <button class="remove-semester">
-      <i class="fas fa-times"></i>
-    </button>
-  `;
+                <div class="semester-input-container">
+                    <i class="fas fa-hashtag"></i>
+                    <input type="number" class="semester-input" min="0" max="10" step="0.01" placeholder="Semester ${semesterCount}">
+                </div>
+                <button class="remove-semester">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
   semesterInputs.appendChild(semesterItem);
 
   const removeBtn = semesterItem.querySelector(".remove-semester");
@@ -192,9 +193,9 @@ function updateFormulaInfo() {
   else if (fromType === "percentage" && toType === "cgpa")
     formulaText = "Using formula: Percentage ÷ 9.5 = CGPA";
   else if (fromType === "sgpa" && toType === "percentage")
-    formulaText = "Using formula: SGPA × 10 = Percentage";
+    formulaText = "Using formula: SGPA × 10 - 7.5 = Percentage";
   else if (fromType === "percentage" && toType === "sgpa")
-    formulaText = "Using formula: Percentage ÷ 10 = SGPA";
+    formulaText = "Using formula: (Percentage + 7.5) ÷ 10 = SGPA";
   else if (fromType === "sgpa" && toType === "cgpa")
     formulaText = "Using formula: CGPA = Total SGPA ÷ Number of Semesters";
   else if (fromType === "cgpa" && toType === "sgpa")
@@ -213,7 +214,7 @@ function convertSGPAtoPercentage(sgpa) {
   return (sgpa * 10 - 7.5).toFixed(2);
 }
 function convertPercentageToSGPA(percentage) {
-  return ((percentage - 7.5) / 10).toFixed(2);
+  return ((percentage + 7.5) / 10).toFixed(2);
 }
 function calculateCGPAFromIndividualSGPAs() {
   const semesterInputs = document.querySelectorAll(".semester-input");
@@ -248,7 +249,16 @@ function calculateCGPAFromTotal() {
 }
 
 // 🚀 Perform Conversion (with validation)
-convertBtn.addEventListener("click", () => {
+convertBtn.addEventListener("click", performConversion);
+
+// Add Enter key functionality
+inputValue.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    performConversion();
+  }
+});
+
+function performConversion() {
   let result = "";
   const value = parseFloat(inputValue.value);
 
@@ -292,7 +302,7 @@ convertBtn.addEventListener("click", () => {
   resultDiv.style.color = "var(--primary)";
   resultDiv.textContent = result;
   resultDiv.classList.add("show");
-});
+}
 
 function showError(msg) {
   resultDiv.textContent = msg;
